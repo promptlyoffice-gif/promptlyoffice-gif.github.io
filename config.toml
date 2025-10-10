@@ -1,0 +1,29 @@
+
+baseURL = "https://promptlyoffice-gif.github.io/"
+languageCode = "uk"
+title = "Promptly — Нейромережі та Промпти"
+theme = "papermod-lite"
+defaultContentLanguage = "uk"
+defaultContentLanguageInSubdir = true
+
+[params]
+  description = "Статті, гайди та корисні матеріали про нейромережі."
+  ShowShareButtons = true
+  ShowReadingTime = true
+  ShowToc = true
+  defaultTheme = "auto"
+
+[languages]
+[languages.uk]
+  weight = 1
+  languageName = "Українська"
+  title = "Promptly — Нейромережі та Промпти"
+  contentDir = "content/uk"
+  menuTitle = "🇺🇦 Українська"
+
+[languages.en]
+  weight = 2
+  languageName = "English"
+  title = "Promptly — AI & Prompts"
+  contentDir = "content/en"
+  menuTitle = "🇬🇧 English"
