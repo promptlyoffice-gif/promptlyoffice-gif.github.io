@@ -1,6 +1,8 @@
 baseURL: "https://promptlyoffice-gif.github.io/"
 title: "Promptly"
 defaultContentLanguage: ua
+relativeURLs = false
+canonifyURLs = true
 languages:
   ua:
     languageName: "Українська"
