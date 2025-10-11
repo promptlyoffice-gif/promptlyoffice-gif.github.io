@@ -13,6 +13,8 @@ defaultContentLanguageInSubdir = true
   ShowToc = true
   defaultTheme = "auto"
   logo = "🤖 Promptly"
+  relativeURLs = false
+  canonifyURLs = true
 
 [languages]
 [languages.uk]
