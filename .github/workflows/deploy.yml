@@ -1,12 +1,25 @@
-      - name: Prepare themes directory and clone PaperMod
+name: Build and deploy Hugo site to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Prepare themes and clone PaperMod
         run: |
-          # Якщо існує файл/не-директорія 'themes' — видаляємо її
-          if [ -f themes ]; then
-            rm -f themes
-          fi
-          if [ -e themes ] && [ ! -d themes ]; then
-            rm -f themes
-          fi
+          if [ -f themes ]; then rm -f themes; fi
+          if [ -e themes ] && [ ! -d themes ]; then rm -f themes; fi
           mkdir -p themes
           git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/papermod
 
@@ -15,11 +28,22 @@
           RSS_FILE="themes/papermod/layouts/_default/rss.xml"
           if [ -f "$RSS_FILE" ]; then
             echo "Patching $RSS_FILE"
-            # Заміна .LanguageCode на .Lang (підходить для більшості шаблонів)
-            sed -i 's/Site.LanguageCode/Site.Language.Lang/g' "$RSS_FILE" || true
-            sed -i 's/\.LanguageCode/\.Lang/g' "$RSS_FILE" || true
-            # додаткові захисні заміни (на всякий випадок)
-            sed -i 's/\.Language\.LanguageCode/\.Language\.Lang/g' "$RSS_FILE" || true
+            sed -i 's/LanguageCode/Lang/g' "$RSS_FILE" || true
           else
             echo "$RSS_FILE not found — skipping patch"
           fi
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.111.3'
+
+      - name: Build
+        run: hugo -D
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./public
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
