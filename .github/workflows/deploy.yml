@@ -13,11 +13,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+          fetch-depth: 0
+
+      - name: Clone PaperMod theme
+        run: |
+          rm -rf themes/papermod || true
+          git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/papermod
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.111.3' # можна змінити на актуальну
+          hugo-version: '0.111.3'
 
       - name: Build
         run: hugo -D
